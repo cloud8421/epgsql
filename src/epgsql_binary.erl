@@ -71,6 +71,7 @@ encode(text, B, _) when is_binary(B)        -> <<(byte_size(B)):?int32, B/binary
 encode(varchar, B, _) when is_binary(B)     -> <<(byte_size(B)):?int32, B/binary>>;
 encode(uuid, B, _) when is_binary(B)        -> encode_uuid(B);
 encode(json, B, _) when is_binary(B)        -> <<(byte_size(B)):?int32, B/binary>>;
+encode(jsonb, B, _) when is_binary(B)       -> <<(byte_size(B)):?int32, B/binary>>;
 encode({array, char}, L, Codec) when is_list(L) -> encode_array(bpchar, type2oid(bpchar, Codec), L, Codec);
 encode({array, Type}, L, Codec) when is_list(L) -> encode_array(Type, type2oid(Type, Codec), L, Codec);
 encode(hstore, {L}, _) when is_list(L)      -> encode_hstore(L);
@@ -279,6 +280,7 @@ supports(timestamptz) -> true;
 supports(interval)    -> true;
 supports(uuid)        -> true;
 supports(json)        -> true;
+supports(jsonb)       -> true;
 supports(hstore)      -> true;
 supports(cidr)        -> true;
 supports(inet)        -> true;
@@ -302,6 +304,7 @@ supports({array, hstore})        -> true;
 supports({array, varchar}) -> true;
 supports({array, uuid})   -> true;
 supports({array, json})   -> true;
+supports({array, jsonb})  -> true;
 supports({array, cidr})   -> true;
 supports({array, inet})   -> true;
 supports(_Type)       -> false.
